@@ -1,0 +1,23 @@
+{
+  "name": "course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server/index.js",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "express": "^4.18.2",
+    "next": "^13.0.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-dom": "^18.2.0",
+    "sass": "^1.55.0"
+  }
+}
