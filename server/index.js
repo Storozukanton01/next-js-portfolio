@@ -12,27 +12,36 @@ const data = {
   portfolios: [
     {
       _id: '24525',
-      title: 'Job in USA',
-      content: 'contentt',
+      title: 'Job in EPAM',
+      company: 'EPAM',
+      companyWebsite: 'www.google.com',
+      location: 'Barcelona',
       jobTitle: 'Chef',
-      daysOfExperience: 100,
-      isCurrentlyEmployed: false,
+      description: 'doing smth',
+      startDate: '10/10/2010',
+      endDate: '10/11/2010',
     },
     {
       _id: '24526',
-      title: 'Job in Barcelona',
-      content: 'contentt',
+      title: 'Job in USA',
+      company: 'EPAM',
+      companyWebsite: 'www.google.com',
+      location: 'New York',
       jobTitle: 'Chef',
-      daysOfExperience: 100,
-      isCurrentlyEmployed: false,
+      description: 'doing smth',
+      startDate: '5/10/2010',
+      endDate: '10/11/2010',
     },
     {
       _id: '24527',
       title: 'Job in UA',
-      content: 'contentt',
-      jobTitle: 'Chef',
-      daysOfExperience: 100,
-      isCurrentlyEmployed: false,
+      company: 'ProgramX',
+      companyWebsite: 'www.google.com',
+      location: 'Kyiv',
+      jobTitle: 'Developer',
+      description: 'doing smth',
+      startDate: '10/10/2010',
+      endDate: '10/11/2017',
     },
   ]
 }
@@ -41,12 +50,15 @@ app.prepare().then(() => {
   const server = express()
   const schema = buildSchema(`
     type Portfolio {
-      _id: ID
-      title: String!
-      content: String
+      _id: String!
+      title: String
+      company: String
+      companyWebsite: String
+      location: String
       jobTitle: String
-      daysOfExperience: Int
-      isCurrentlyEmployed: Boolean
+      description: String
+      startDate: String
+      endDate: String
     }
 
     type Query {
