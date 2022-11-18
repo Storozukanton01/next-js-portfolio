@@ -1,6 +1,6 @@
 const express = require('express')
 const next = require('next')
-const {graphqlHTTP} = require('express-graphql');
+const graphqlHTTP = require('express-graphql');
 const {buildSchema} = require('graphql');
 
 const port = parseInt(process.env.PORT, 10) || 3000
@@ -18,6 +18,7 @@ const data = {
       location: 'Barcelona',
       jobTitle: 'Chef',
       description: 'doing smth',
+      days: '45',
       startDate: '10/10/2010',
       endDate: '10/11/2010',
     },
@@ -29,6 +30,7 @@ const data = {
       location: 'New York',
       jobTitle: 'Chef',
       description: 'doing smth',
+      days: '45',
       startDate: '5/10/2010',
       endDate: '10/11/2010',
     },
@@ -40,6 +42,7 @@ const data = {
       location: 'Kyiv',
       jobTitle: 'Developer',
       description: 'doing smth',
+      days: '45',
       startDate: '10/10/2010',
       endDate: '10/11/2017',
     },
@@ -57,13 +60,14 @@ app.prepare().then(() => {
       location: String
       jobTitle: String
       description: String
+      days: String
       startDate: String
       endDate: String
     }
 
     type Query {
       hello: String
-      portfolio: Portfolio
+      portfolio(id: ID): Portfolio
       portfolios: [Portfolio]
     }
   `)
@@ -72,8 +76,9 @@ app.prepare().then(() => {
     hello: () => {
       return 'Hello world!'
     },
-    portfolio: () => {
-      return data.portfolios[0]
+    portfolio: ({id}) => {
+      const portfolio = data.portfolios.find(p => p._id === id)
+      return portfolio;
     },
     portfolios: () => {
       return data.portfolios
