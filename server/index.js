@@ -26,7 +26,7 @@ const data = {
       _id: '24526',
       title: 'Job in USA',
       company: 'EPAM',
-      companyWebsite: 'www.google.com',
+      companyWebsite: 'https://www.google.com',
       location: 'New York',
       jobTitle: 'Chef',
       description: 'doing smth',
