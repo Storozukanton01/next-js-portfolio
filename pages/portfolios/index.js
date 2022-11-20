@@ -1,6 +1,37 @@
 import axios from 'axios'
 import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link'
+import { useState } from 'react'
+
+const graphCreatePortfolio = () => {
+  const query = `
+  mutation  CreatePortfolio {
+    createPortfolio(input: {
+      title: "new job"
+      company: "new company"
+      companyWebsite: "new website"
+      location: "new location"
+      jobTitle: "new jobtitle"
+      description: "new description"
+      days: "new days"
+      startDate: "new date1"
+      endDate: "new date2"
+    }) {
+      _id
+      title
+      company
+      companyWebsite
+      location
+      jobTitle
+      description
+      startDate
+      endDate
+    }
+  }`;
+  return axios.post('http://localhost:3000/graphql', { query })
+    .then(({data: graph}) => graph.data)
+    .then(data => data.createPortfolio)
+}
 
 const fetchPortfolios = () => {
   const query = `
@@ -21,7 +52,15 @@ const fetchPortfolios = () => {
     .then(({data: graph}) => graph.data)
     .then(data => data.portfolios)
 }
-const Portfolios = ({portfolios}) => {
+const Portfolios = ({data}) => {
+  const [portfolios, setPortfolios] = useState(data.portfolios);
+
+  const createPortfolio = async () => {
+    const newPortfolio = await graphCreatePortfolio();
+    const newPortfolios = [...portfolios, newPortfolio];
+    setPortfolios(newPortfolios);
+  }
+
   return (
     <>
       <section className="section-title">
@@ -30,6 +69,12 @@ const Portfolios = ({portfolios}) => {
             <h1>Portfolios</h1>
           </div>
         </div>
+        <button
+          onClick={createPortfolio}
+          className='btn btn-primary'
+        >
+          Create portfolio
+        </button>
       </section>
       <section className="pb-5">
         <div className="row">
@@ -53,6 +98,6 @@ const Portfolios = ({portfolios}) => {
 }
 Portfolios.getInitialProps = async () => {
   const portfolios = await fetchPortfolios();
-  return { portfolios };
+  return { data: {portfolios} };
 }
 export default Portfolios;
