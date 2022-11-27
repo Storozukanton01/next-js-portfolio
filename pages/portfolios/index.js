@@ -3,6 +3,36 @@ import PortfolioCard from '@/components/portfolios/PortfolioCard';
 import Link from 'next/link'
 import { useState } from 'react'
 
+const graphUpdatePortfolio = (id) => {
+  const query = `
+  mutation  UpdatePortfolio {
+    updatePortfolio(id: "${id}",input: {
+      title: "update job"
+      company: "update company"
+      companyWebsite: "update website"
+      location: "update location"
+      jobTitle: "update jobtitle"
+      description: "update description"
+      days: "update days"
+      startDate: "update date1"
+      endDate: "update date2"
+    }) {
+      _id
+      title
+      company
+      companyWebsite
+      location
+      jobTitle
+      description
+      startDate
+      endDate
+    }
+  }`;
+  return axios.post('http://localhost:3000/graphql', { query })
+    .then(({data: graph}) => graph.data)
+    .then(data => data.updatePortfolio)
+}
+
 const graphCreatePortfolio = () => {
   const query = `
   mutation  CreatePortfolio {
@@ -61,6 +91,14 @@ const Portfolios = ({data}) => {
     setPortfolios(newPortfolios);
   }
 
+  const updatePortfolio = async (id) => {
+    const updatedPortfolio = await graphUpdatePortfolio(id);
+    const index = portfolios.findIndex(p => p._id === id);
+    const newPortfolios = portfolios.slice();
+    newPortfolios[index] = updatedPortfolio;
+    setPortfolios(newPortfolios);
+  }
+
   return (
     <>
       <section className="section-title">
@@ -88,6 +126,12 @@ const Portfolios = ({data}) => {
                   <PortfolioCard portfolio={portfolio} />
                 </a>
               </Link>
+              <button
+                className='btn btn-warning'
+                onClick={() => updatePortfolio(portfolio._id)}
+              >
+                Update portfolio
+              </button>
             </div>
           )
           }
